@@ -1,0 +1,88 @@
+
+
+firstly neet to update and upgrade
+
+you can access with root level..
+
+# apt install update && upgrade -y
+
+# apt install tasksel
+
+(1)  # tasksel >> (mark) lamp-server
+
+
+and than , you need to chack for apache2 serices
+
+# systemctl start apache2
+
+# systemctl enable apache2
+
+# systemctl status apache2
+
+
+(2) setup for wordpress database >> config for client
+
+# mysql -u root -p
+
+** note that ** you have no any password so any password no need to input there.
+
+	# mysql> CREATE DATABASE wordpress;
+
+	# mysql> CREATE USER wordpressuser@localhost IDENTIFIED BY '123abc';
+
+	# mysql> FLUSH PRIVILEGES;
+
+	# mysql> exit
+
+(3) Download for wordpress and unzip
+
+	# cd ~
+
+	# wget http://wordpress.org/latest.tar.gz
+
+	# tar xzvf latest.tar.gz
+
+(4)and now need to install PHP (php 7...) is more suitable for ..
+
+	sudo apt-get install software-properties-common
+	sudo add-apt-repository ppa:ondrej/php
+	sudo apt-get update
+	sudo apt-get install -y php7.2
+
+(5)and then , wordpress configuration 
+
+	# cd ~/wordpress
+
+	# cp wp-config-sample.php wp-config.php
+
+Next, config wordpress.
+
+	# nano wp-config.php
+
+and write this:
+
+	define('DB_NAME', 'wordpress');
+	define('DB_USER', 'wordpressuser');
+    	define('DB_PASSWORD', '123abc');
+
+for Syncronize documents:
+
+	$ sudo rsync -avP ~/wordpress/ /var/www/html/
+
+we need to change the name of index.php by default(apache2)
+
+	# cd /var/www/html/
+
+	# mv index.html _index.html
+
+	# mv readme.html index.htm
+
+but if you wantn't you can.
+
+finally, we reloac apache's server:
+
+	# systemctl restart apache2
+
+that is done: please call your ip or domain from your browser:
+
+
